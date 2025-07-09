@@ -1,0 +1,19 @@
+Requirements:
+1.  1 entrance 1 exit
+2. Parking spot type - 2 wheeler and 4 
+3. Billing - Hourly / Minute base / Mix
+4. Parking spot should be nearest from the entrance
+
+  
+
+Objcets:
+
+1. Vehicle - Vehicle no , vehicle type
+
+2. Entrance gate - Find spot , update spot , generate ticket
+
+3. Exit gate - Cost calculation , payment , update spot
+
+5. Ticket - Entry time , parking spot
+
+4. Parking spot- Id , isEmpty , vehicle , price
