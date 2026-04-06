@@ -1,10 +1,10 @@
-package Parking_Spot.Parking_Strategies;
+// package Parking_Spot.Parking_Strategies;
 
-import Parking_Spot.ParkingSpot;
+// import Parking_Spot.ParkingSpot;
 
-public class NearExit implements ParkingStrategy {
-    public ParkingSpot findSpot() {
+// public class NearExit implements ParkingStrategy {
+// public ParkingSpot findSpot() {
 
-    }
+// }
 
-}
+// }

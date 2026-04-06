@@ -1,0 +1,40 @@
+What is Observer Pattern?
+
+Observer Pattern is used when one object (Subject) needs to automatically notify multiple other objects (Observers) whenever its state changes.
+
+👉 “One changes → many get notified”
+
+🧠 Real-World Example: YouTube Channel & Subscribers
+Entities:
+
+YouTube Channel → Subject
+
+Subscribers → Observers
+
+Scenario:
+
+A YouTube channel uploads a new video
+
+All subscribers get notified automatically
+
+🔄 How it maps to Observer Pattern
+Real World	Observer Pattern
+YouTube Channel	Subject
+Subscriber	Observer
+Subscribe	Register observer
+Unsubscribe	Remove observer
+New video uploaded	State change
+Notification sent	notifyObservers()
+
+
+
+
+🔍 Simple Flow
+
+Subscribers subscribe to the channel
+
+Channel uploads a video
+
+Channel notifies all subscribers
+
+Subscribers receive the update
