@@ -1,6 +1,18 @@
 # SOLID Principles
 
-This folder contains small Java examples for all five SOLID principles. Each file shows the idea in a compact form, with a commented bad design and a better design.
+SOLID Principles are 5 important design principles in Object-Oriented Programming (OOP) that help you write clean, maintainable, scalable, and flexible code.
+
+Think of SOLID like rules for writing good code architecture, especially useful in Java (which you’re focusing on).
+
+# What is SOLID?
+
+SOLID =
+
+S → Single Responsibility Principle
+O → Open/Closed Principle
+L → Liskov Substitution Principle
+I → Interface Segregation Principle
+D → Dependency Inversion Principle
 
 ## 1. Single Responsibility Principle
 
@@ -8,7 +20,13 @@ A class should have only one reason to change.
 
 Example: [Single_Responsibility.java](Single_Responsibility.java)
 
-In this file, `UserService` only saves users, while `EmailService` only sends emails. This separates responsibilities instead of putting both actions into one class.
+### Problem in Bad Design
+
+In the bad design, a single `UserService` class is responsible for both saving users and sending emails. This violates the principle because if the email-sending logic changes, the `UserService` class also needs to be modified.
+
+### Solution in Good Design
+
+The good design separates these responsibilities into two classes: `UserService` for saving users and `EmailService` for sending emails. This ensures that changes to email logic do not affect user-related functionality.
 
 ## 2. Open/Closed Principle
 
@@ -16,7 +34,13 @@ Software entities should be open for extension, but closed for modification.
 
 Example: [Open_Close_Principle.java](Open_Close_Principle.java)
 
-The bad design uses `if` checks inside a single `Discount` class. The better design introduces `DiwaliDiscount` and `NewUserDiscount` classes that implement the `Discount` interface, so new discount types can be added without changing the existing logic.
+### Problem in Bad Design
+
+The bad design uses `if` checks inside a single `Discount` class to handle different discount types. Adding a new discount type requires modifying the existing class, which can introduce bugs and violates the principle.
+
+### Solution in Good Design
+
+The good design introduces an interface `Discount` and separate classes like `DiwaliDiscount` and `NewUserDiscount` that implement this interface. This allows new discount types to be added without modifying existing code.
 
 ## 3. Liskov Substitution Principle
 
@@ -24,7 +48,13 @@ Subtypes should be replaceable by their base types without breaking the program.
 
 Example: [Liskov_Substitution_Principle.java](Liskov_Substitution_Principle.java)
 
-The file shows why forcing every bird to fly is a bad design. `Ostrich` does not need to override `fly()` with unsupported behavior. Instead, `FlyingBird` is used for birds that can fly, and `Sparrow` extends it safely.
+### Problem in Bad Design
+
+In the bad design, `Ostrich` extends `Bird` and overrides the `fly()` method to throw an exception. This breaks the program if `Ostrich` is used where a `Bird` is expected.
+
+### Solution in Good Design
+
+The good design introduces a `FlyingBird` class for birds that can fly, and `Ostrich` does not override `fly()`. This ensures that `Ostrich` can safely replace `Bird` without breaking the program.
 
 ## 4. Interface Segregation Principle
 
@@ -32,7 +62,13 @@ A class should not be forced to implement methods it does not use.
 
 Example: [Interface_Segregation_Principle.java](Interface_Segregation_Principle.java)
 
-The bad design combines `work()` and `eat()` in one `Worker` interface. The better design splits them into `Workable` and `Eatable`, so `Robot` only implements `Workable` and `Human` implements both.
+### Problem in Bad Design
+
+The bad design combines `work()` and `eat()` methods in a single `Worker` interface. This forces `Robot` to implement an `eat()` method it does not use.
+
+### Solution in Good Design
+
+The good design splits the `Worker` interface into `Workable` and `Eatable` interfaces. `Robot` implements only `Workable`, while `Human` implements both. This avoids forcing classes to implement unused methods.
 
 ## 5. Dependency Inversion Principle
 
@@ -40,7 +76,13 @@ High-level modules should depend on abstractions, not on concrete classes.
 
 Example: [Dependacy_Inversion_Principle.java](Dependacy_Inversion_Principle.java)
 
-The bad design directly couples `UserService` to `MySQLDatabase`. The better design introduces a `Database` interface, and `UserService` depends on that abstraction instead of a specific database class.
+### Problem in Bad Design
+
+In the bad design, `UserService` is directly coupled to `MySQLDatabase`. If the database implementation changes, the `UserService` class must also change.
+
+### Solution in Good Design
+
+The good design introduces a `Database` interface, and `UserService` depends on this abstraction. This allows the database implementation to change without affecting `UserService`.
 
 ## Summary
 
