@@ -20,37 +20,67 @@ A class should have only one reason to change.
 
 Example: [Single_Responsibility.java](Single_Responsibility.java)
 
+### Bad Design
+
+This design violates the principle because it combines multiple responsibilities into a single class. For example, `UserService` is responsible for both saving users and sending emails. This makes the class harder to maintain and test, as changes to one responsibility might affect the other.
+
 ```java
 class UserService {
     void saveUser() {
+        // Save user logic
+    }
+
+    void sendEmail() {
+        // Send email logic
+    }
+}
+```
+
+### Good Design
+
+This design adheres to the principle by separating responsibilities into distinct classes. `UserService` handles user-related logic, while `EmailService` is solely responsible for email-related logic. This separation makes the code easier to maintain, test, and extend.
+
+```java
+class UserService {
+    void saveUser() {
+        // Save user logic
     }
 }
 
 class EmailService {
     void sendEmail() {
-    }
-}
-
-public class Single_Responsibility {
-    public static void main(String[] args) {
-        System.out.println("Single Responsibility Principle");
+        // Send email logic
     }
 }
 ```
-
-### Problem in Bad Design
-
-In the bad design, a single `UserService` class is responsible for both saving users and sending emails. This violates the principle because if the email-sending logic changes, the `UserService` class also needs to be modified.
-
-### Solution in Good Design
-
-The good design separates these responsibilities into two classes: `UserService` for saving users and `EmailService` for sending emails. This ensures that changes to email logic do not affect user-related functionality.
 
 ## 2. Open/Closed Principle
 
 Software entities should be open for extension, but closed for modification.
 
 Example: [Open_Close_Principle.java](Open_Close_Principle.java)
+
+### Bad Design
+
+This design violates the principle because it mixes the logic for different discount types within a single class. Adding a new discount type requires modifying the existing `Discount` class, which can introduce bugs and violates the Open/Closed Principle.
+
+```java
+class Discount {
+    double calculate(String type) {
+        if (type.equals("DIWALI")) {
+            return 10;
+        }
+        if (type.equals("NEWUSER")) {
+            return 20;
+        }
+        return 0;
+    }
+}
+```
+
+### Good Design
+
+This design adheres to the principle by using an interface and separate classes for each discount type. Adding a new discount type only requires creating a new class that implements the `Discount` interface, without modifying existing code.
 
 ```java
 interface Discount {
@@ -68,21 +98,7 @@ class NewUserDiscount implements Discount {
         return 20;
     }
 }
-
-public class Open_Close_Principle {
-    public static void main(String[] a) {
-
-    }
-}
 ```
-
-### Problem in Bad Design
-
-The bad design uses `if` checks inside a single `Discount` class to handle different discount types. Adding a new discount type requires modifying the existing class, which can introduce bugs and violates the principle.
-
-### Solution in Good Design
-
-The good design introduces an interface `Discount` and separate classes like `DiwaliDiscount` and `NewUserDiscount` that implement this interface. This allows new discount types to be added without modifying existing code.
 
 ## 3. Liskov Substitution Principle
 
@@ -90,43 +106,78 @@ Subtypes should be replaceable by their base types without breaking the program.
 
 Example: [Liskov_Substitution_Principle.java](Liskov_Substitution_Principle.java)
 
+### Bad Design
+
+This design violates the principle because the `Ostrich` class cannot fulfill the contract of the `Bird` class. The `fly` method in `Ostrich` throws an exception, which breaks the expectation that all `Bird` subclasses can fly.
+
 ```java
 class Bird {
     void fly() {
-    }
-}
-
-class FlyingBird extends Bird {
-    void fly() {
+        // Fly logic
     }
 }
 
 class Ostrich extends Bird {
-}
-
-class Sparrow extends FlyingBird {
-}
-
-public class Liskov_Substitution_Principle {
-    public static void main(String[] a) {
-
+    void fly() {
+        throw new UnsupportedOperationException();
     }
 }
 ```
 
-### Problem in Bad Design
+### Good Design
 
-In the bad design, `Ostrich` extends `Bird` and overrides the `fly()` method to throw an exception. This breaks the program if `Ostrich` is used where a `Bird` is expected.
+This design adheres to the principle by separating the behavior into appropriate classes. The `Bird` class represents general bird behavior, while specific behaviors like flying are handled by subclasses that can actually perform those actions.
 
-### Solution in Good Design
+```java
+class Bird {
+    // Common bird properties
+}
 
-The good design introduces a `FlyingBird` class for birds that can fly, and `Ostrich` does not override `fly()`. This ensures that `Ostrich` can safely replace `Bird` without breaking the program.
+class FlyingBird extends Bird {
+    void fly() {
+        // Fly logic
+    }
+}
+
+class Ostrich extends Bird {
+    // Ostrich-specific properties
+}
+
+class Sparrow extends FlyingBird {
+    // Sparrow-specific properties
+}
+```
 
 ## 4. Interface Segregation Principle
 
 A class should not be forced to implement interfaces it does not use.
 
 Example: [Interface_Segregation_Principle.java](Interface_Segregation_Principle.java)
+
+### Bad Design
+
+This design violates the principle because the `Worker` interface forces all implementing classes to define methods they might not need. For example, `Robot` has to implement the `eat` method, which is irrelevant to its functionality.
+
+```java
+interface Worker {
+    void work();
+    void eat();
+}
+
+class Robot implements Worker {
+    public void work() {
+        // Work logic
+    }
+
+    public void eat() {
+        // Useless for Robot
+    }
+}
+```
+
+### Good Design
+
+This design adheres to the principle by splitting the `Worker` interface into smaller, more specific interfaces. Classes like `Robot` only implement the methods they need, avoiding unnecessary code.
 
 ```java
 interface Workable {
@@ -139,35 +190,50 @@ interface Eatable {
 
 class Robot implements Workable {
     public void work() {
+        // Work logic
     }
 }
 
 class Human implements Workable, Eatable {
     public void work() {
+        // Work logic
     }
 
     public void eat() {
+        // Eat logic
     }
 }
-
-public class Interface_Segregation_Principle {
-
-}
 ```
-
-### Problem in Bad Design
-
-The bad design combines `work()` and `eat()` methods in a single `Worker` interface. This forces `Robot` to implement an `eat()` method it does not use.
-
-### Solution in Good Design
-
-The good design splits the `Worker` interface into `Workable` and `Eatable` interfaces. `Robot` implements only `Workable`, while `Human` implements both. This avoids forcing classes to implement unused methods.
 
 ## 5. Dependency Inversion Principle
 
 High-level modules should not depend on low-level modules. Both should depend on abstractions.
 
 Example: [Dependacy_Inversion_Principle.java](Dependacy_Inversion_Principle.java)
+
+### Bad Design
+
+This design violates the principle because the `UserService` class directly depends on the `MySQLDatabase` class. This tight coupling makes it difficult to switch to a different database implementation without modifying the `UserService` class.
+
+```java
+class MySQLDatabase {
+    void connect() {
+        // Connection logic
+    }
+}
+
+class UserService {
+    MySQLDatabase db = new MySQLDatabase();
+
+    void performOperation() {
+        db.connect();
+    }
+}
+```
+
+### Good Design
+
+This design adheres to the principle by introducing an abstraction (`Database` interface). The `UserService` class depends on the `Database` abstraction, allowing it to work with any database implementation without requiring changes.
 
 ```java
 interface Database {
@@ -176,6 +242,7 @@ interface Database {
 
 class MySQLDatabase implements Database {
     public void connect() {
+        // Connection logic
     }
 }
 
@@ -186,28 +253,4 @@ class UserService {
         this.db = db;
     }
 }
-
-public class Dependacy_Inversion_Principle {
-
-}
 ```
-
-### Problem in Bad Design
-
-In the bad design, `UserService` is directly coupled to `MySQLDatabase`. If the database implementation changes, the `UserService` class must also change.
-
-### Solution in Good Design
-
-The good design introduces a `Database` interface, and `UserService` depends on this abstraction. This allows the database implementation to change without affecting `UserService`.
-
-## Summary
-
-The five SOLID principles help make code easier to maintain, extend, and test:
-
-- Single Responsibility: one class, one job
-- Open/Closed: extend behavior without changing existing code
-- Liskov Substitution: subclasses must work anywhere their parent type is expected
-- Interface Segregation: keep interfaces small and focused
-- Dependency Inversion: depend on abstractions, not concrete implementations
-
-You can use the Java files in this folder as quick reference examples for each principle.
