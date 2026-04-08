@@ -20,6 +20,24 @@ A class should have only one reason to change.
 
 Example: [Single_Responsibility.java](Single_Responsibility.java)
 
+```java
+class UserService {
+    void saveUser() {
+    }
+}
+
+class EmailService {
+    void sendEmail() {
+    }
+}
+
+public class Single_Responsibility {
+    public static void main(String[] args) {
+        System.out.println("Single Responsibility Principle");
+    }
+}
+```
+
 ### Problem in Bad Design
 
 In the bad design, a single `UserService` class is responsible for both saving users and sending emails. This violates the principle because if the email-sending logic changes, the `UserService` class also needs to be modified.
@@ -33,6 +51,30 @@ The good design separates these responsibilities into two classes: `UserService`
 Software entities should be open for extension, but closed for modification.
 
 Example: [Open_Close_Principle.java](Open_Close_Principle.java)
+
+```java
+interface Discount {
+    double calculate();
+}
+
+class DiwaliDiscount implements Discount {
+    public double calculate() {
+        return 10;
+    }
+}
+
+class NewUserDiscount implements Discount {
+    public double calculate() {
+        return 20;
+    }
+}
+
+public class Open_Close_Principle {
+    public static void main(String[] a) {
+
+    }
+}
+```
 
 ### Problem in Bad Design
 
@@ -48,6 +90,30 @@ Subtypes should be replaceable by their base types without breaking the program.
 
 Example: [Liskov_Substitution_Principle.java](Liskov_Substitution_Principle.java)
 
+```java
+class Bird {
+    void fly() {
+    }
+}
+
+class FlyingBird extends Bird {
+    void fly() {
+    }
+}
+
+class Ostrich extends Bird {
+}
+
+class Sparrow extends FlyingBird {
+}
+
+public class Liskov_Substitution_Principle {
+    public static void main(String[] a) {
+
+    }
+}
+```
+
 ### Problem in Bad Design
 
 In the bad design, `Ostrich` extends `Bird` and overrides the `fly()` method to throw an exception. This breaks the program if `Ostrich` is used where a `Bird` is expected.
@@ -58,9 +124,36 @@ The good design introduces a `FlyingBird` class for birds that can fly, and `Ost
 
 ## 4. Interface Segregation Principle
 
-A class should not be forced to implement methods it does not use.
+A class should not be forced to implement interfaces it does not use.
 
 Example: [Interface_Segregation_Principle.java](Interface_Segregation_Principle.java)
+
+```java
+interface Workable {
+    void work();
+}
+
+interface Eatable {
+    void eat();
+}
+
+class Robot implements Workable {
+    public void work() {
+    }
+}
+
+class Human implements Workable, Eatable {
+    public void work() {
+    }
+
+    public void eat() {
+    }
+}
+
+public class Interface_Segregation_Principle {
+
+}
+```
 
 ### Problem in Bad Design
 
@@ -72,9 +165,32 @@ The good design splits the `Worker` interface into `Workable` and `Eatable` inte
 
 ## 5. Dependency Inversion Principle
 
-High-level modules should depend on abstractions, not on concrete classes.
+High-level modules should not depend on low-level modules. Both should depend on abstractions.
 
 Example: [Dependacy_Inversion_Principle.java](Dependacy_Inversion_Principle.java)
+
+```java
+interface Database {
+    void connect();
+}
+
+class MySQLDatabase implements Database {
+    public void connect() {
+    }
+}
+
+class UserService {
+    Database db;
+
+    UserService(Database db) {
+        this.db = db;
+    }
+}
+
+public class Dependacy_Inversion_Principle {
+
+}
+```
 
 ### Problem in Bad Design
 
