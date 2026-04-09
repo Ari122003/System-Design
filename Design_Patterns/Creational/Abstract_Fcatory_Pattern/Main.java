@@ -1,22 +1,113 @@
 package Design_Patterns.Creational.Abstract_Fcatory_Pattern;
 
-import Design_Patterns.Creational.Abstract_Fcatory_Pattern.Factories.BusFactory;
-import Design_Patterns.Creational.Abstract_Fcatory_Pattern.Factories.FamilyCarFactory;
-import Design_Patterns.Creational.Abstract_Fcatory_Pattern.Vehicles.Vehicle;
+// Base Interfaces
+
+interface Car {
+    void drive();
+}
+
+interface Engine {
+    void start();
+}
+
+interface Interior {
+    void design();
+}
+
+// Concrete Implementations
+
+// BMW Family
+class BMW implements Car {
+    public void drive() {
+        System.out.println("Driving BMW");
+    }
+}
+
+class BMWEngine implements Engine {
+    public void start() {
+        System.out.println("BMW Engine started");
+    }
+}
+
+class BMWInterior implements Interior {
+    public void design() {
+        System.out.println("BMW Interior design");
+    }
+}
+
+// Audi Family
+
+class Audi implements Car {
+    public void drive() {
+        System.out.println("Driving Audi");
+    }
+}
+
+class AudiEngine implements Engine {
+    public void start() {
+        System.out.println("Audi Engine started");
+    }
+}
+
+class AudiInterior implements Interior {
+    public void design() {
+        System.out.println("Audi Interior design");
+    }
+}
+
+// Abstract Factory Interface
+interface CarFactory {
+    Car createCar();
+
+    Engine createEngine();
+
+    Interior createInterior();
+}
+
+// Concrete Factories
+
+// BMW Factory
+class BMWFactory implements CarFactory {
+
+    public Car createCar() {
+        return new BMW();
+    }
+
+    public Engine createEngine() {
+        return new BMWEngine();
+    }
+
+    public Interior createInterior() {
+        return new BMWInterior();
+    }
+}
+
+// Audi Factory
+class AudiFactory implements CarFactory {
+
+    public Car createCar() {
+        return new Audi();
+    }
+
+    public Engine createEngine() {
+        return new AudiEngine();
+    }
+
+    public Interior createInterior() {
+        return new AudiInterior();
+    }
+}
 
 public class Main {
     public static void main(String[] args) {
-        FamilyCarFactory fcf = new FamilyCarFactory();
+        CarFactory bmwFactory = new BMWFactory();
 
-        Vehicle familyCar = fcf.getFamilyCar("Swift");
+        Car bmwCar = bmwFactory.createCar();
+        Engine bmwEngine = bmwFactory.createEngine();
+        Interior bmwInterior = bmwFactory.createInterior();
 
-        System.out.println(familyCar.average());
-
-        BusFactory bf = new BusFactory();
-
-        Vehicle bus = bf.getBus("Travel");
-
-        System.out.println(bus.average());
+        bmwCar.drive();
+        bmwEngine.start();
+        bmwInterior.design();
     }
-
 }
